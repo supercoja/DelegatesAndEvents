@@ -14,8 +14,12 @@ namespace DelegateAndEvents
         {
             WorkerPerformedHandler delegate1 = new WorkerPerformedHandler(WorkerPerformed1);
             WorkerPerformedHandler delegate2 = new WorkerPerformedHandler(WorkerPerformed2);
+            WorkerPerformedHandler delegate3 = new WorkerPerformedHandler(WorkerPerformed3);
 
-            DoWork(delegate2);
+            delegate1 += delegate2;
+            delegate1 += delegate3;
+
+            DoWork(delegate1);
 
             Console.Read();
         }
@@ -28,12 +32,18 @@ namespace DelegateAndEvents
 
         static void WorkerPerformed1(int hours, WorkType worktype)
         {
-            Console.WriteLine("WorkePerformed 1 called - Hours {0} ",hours.ToString());
+            Console.WriteLine("WorkerPerformed 1 called - Hours {0} ",hours.ToString());
         }
 
         static void WorkerPerformed2(int hours, WorkType worktype)
         {
-            Console.WriteLine("WorkePerformed 2 called - Hours {0} ", hours.ToString());
+            Console.WriteLine("WorkerPerformed 2 called - Hours {0} ", hours.ToString());
         }
+
+        static void WorkerPerformed3(int hours, WorkType worktype)
+        {
+            Console.WriteLine("WorkerPerformed 3 called - Hours {0} ", hours.ToString());
+        }
+
     }
 }
