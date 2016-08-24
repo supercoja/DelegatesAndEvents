@@ -9,20 +9,32 @@ namespace DelegateAndEvents
         static void Main(string[] args)
         {
             var worker = new Worker();
-//            DoWork(worker.DoWork(3, WorkType.GoToMeetings));
-            
+            worker.WorkPerformed += new EventHandler<WorkPerformedEventArgs>(Worker_WorkerPerformed);
+            worker.WorkCompleted += new EventHandler(Worker_Completed);
+            worker.DoWork(5, WorkType.GenerateReports);
+
+//          DoWork(worker.DoWork(3, WorkType.GoToMeetings));
+
 /*          WorkerPerformedHandler delegate1 = new WorkerPerformedHandler(WorkerPerformed1);
-          WorkerPerformedHandler delegate2 = new WorkerPerformedHandler(WorkerPerformed2);
-          WorkerPerformedHandler delegate3 = new WorkerPerformedHandler(WorkerPerformed3);
+            WorkerPerformedHandler delegate2 = new WorkerPerformedHandler(WorkerPerformed2);
+            WorkerPerformedHandler delegate3 = new WorkerPerformedHandler(WorkerPerformed3);
 
-          delegate1 += delegate2 + delegate3;
+            delegate1 += delegate2 + delegate3;
 
-          int finalHours = delegate1(7,WorkType.GoToMeetings);
-          Console.WriteLine("Final Hours {0}", finalHours.ToString());
+            int finalHours = delegate1(7,WorkType.GoToMeetings);
+            Console.WriteLine("Final Hours {0}", finalHours.ToString());
 */
           Console.Read();
         }
 
+        static void Worker_Completed(object sender, EventArgs e)
+        {
+            Console.WriteLine("Worker Completed");
+        }
+        static void Worker_WorkerPerformed(object sender, WorkPerformedEventArgs e)
+        {
+            Console.WriteLine(e.Hours + " " + e.WorkType);
+        }
         static void DoWork(WorkerPerformedHandler del)
         {
             del(5, WorkType.Read);
