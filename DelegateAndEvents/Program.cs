@@ -9,8 +9,11 @@ namespace DelegateAndEvents
         static void Main(string[] args)
         {
             var worker = new Worker();
-            worker.WorkPerformed += new EventHandler<WorkPerformedEventArgs>(Worker_WorkerPerformed);
-            worker.WorkCompleted += new EventHandler(Worker_Completed);
+            worker.WorkPerformed += Worker_WorkPerformed;
+            worker.WorkCompleted += Worker_Completed;
+
+//            worker.WorkCompleted -= Worker_Completed;
+
             worker.DoWork(5, WorkType.GenerateReports);
 
 //          DoWork(worker.DoWork(3, WorkType.GoToMeetings));
@@ -27,14 +30,16 @@ namespace DelegateAndEvents
           Console.Read();
         }
 
+        private static void Worker_WorkPerformed(object sender, WorkPerformedEventArgs e)
+        {
+            Console.WriteLine(e.Hours + " " + e.WorkType);
+        }
+
         static void Worker_Completed(object sender, EventArgs e)
         {
             Console.WriteLine("Worker Completed");
         }
-        static void Worker_WorkerPerformed(object sender, WorkPerformedEventArgs e)
-        {
-            Console.WriteLine(e.Hours + " " + e.WorkType);
-        }
+
         static void DoWork(WorkerPerformedHandler del)
         {
             del(5, WorkType.Read);
